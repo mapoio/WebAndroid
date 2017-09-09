@@ -10,6 +10,13 @@
         <span slot="right"></span>
       </yd-cell-item>
     </yd-cell-group>
+    <yd-button size="large" type="primary" link="/login">登录</yd-button>
+    <yd-cell-group>
+      <yd-cell-item arrow type="a" href="http://www.baidu.com">
+            <span slot="left">百度</span>
+            <span slot="right">点击进入</span>
+        </yd-cell-item>
+    </yd-cell-group>
   </div>
 </template>
 <script>
