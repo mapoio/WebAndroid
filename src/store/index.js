@@ -1,21 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import user from './user'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-    domain: 'http://test.example.com',
-    userInfo: {
-      nick: null,
-      ulevel: null,
-      uid: null,
-      portrait: null
-    }
-  },
-  mutations: {
-    updateUserInfo (state, newUserInfo) {
-      state.userInfo = newUserInfo
-    }
+  strict: process.env.NODE_ENV !== 'production', // 在非生产环境下，使用严格模式
+  modules: {
+    user
   }
 })

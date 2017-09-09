@@ -1,21 +1,33 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import FastClick from 'fastclick'
 import App from './App'
-import router from './router/index'
-import { AjaxPlugin } from 'vux'
-import store from './store/index'
-
-Vue.use(AjaxPlugin)
-
-FastClick.attach(document.body)
+import router from './router'
+import YDUI from 'vue-ydui'
+import VueResource from 'vue-resource'
+import 'vue-ydui/dist/ydui.rem.css'
+import store from './store'
 
 Vue.config.productionTip = false
 
+Vue.use(YDUI)
+Vue.use(VueResource)
 /* eslint-disable no-new */
+
+router.beforeEach(({meta, path}, from, next) => {
+  var { auth = true } = meta
+  var isLogin = Boolean(store.state.user.id) // true用户已登录， false用户未登录
+
+  if (auth && !isLogin && path !== '/login') {
+    return next({ path: '/login' })
+  }
+  next()
+})
+
 new Vue({
-  store,
+  el: '#app',
   router,
-  render: h => h(App)
-}).$mount('#app-box')
+  store,
+  template: '<App/>',
+  components: { App }
+})
