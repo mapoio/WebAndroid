@@ -15,11 +15,13 @@ export default {
   //     uid: null,
   //     portrait: null
   //  }
+  // TODO: 添加用户登录，获取access_token
   mutations: {
     [USER_SIGNIN] (state, user) {
-      this.$http.get(loginApi)
-      sessionStorage.setItem('user', JSON.stringify(user))
-      Object.assign(state, user)
+      this.$http.post(loginApi.url, loginApi.request).then(success => {
+        sessionStorage.setItem('user', JSON.stringify(user))
+        Object.assign(state, user)
+      })
     },
     [USER_SIGNOUT] (state) {
       sessionStorage.removeItem('user')
