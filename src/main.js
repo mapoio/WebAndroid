@@ -14,6 +14,7 @@ Vue.use(YDUI)
 Vue.use(VueResource)
 /* eslint-disable no-new */
 
+// 每次请求都将检查登录状态
 router.beforeEach(({meta, path}, from, next) => {
   var { auth = true } = meta
   var isLogin = Boolean(store.state.user.id) // true用户已登录， false用户未登录
