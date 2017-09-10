@@ -1,7 +1,9 @@
 import Vue from 'vue'
+import Api from '../utils/api'
 
 export const USER_SIGNIN = 'USER_SIGNIN' // 登录成功
 export const USER_SIGNOUT = 'USER_SIGNOUT' // 退出登录
+let loginApi = Api.login
 
 export default {
   state: JSON.parse(sessionStorage.getItem('user')) || {},
@@ -15,6 +17,7 @@ export default {
   //  }
   mutations: {
     [USER_SIGNIN] (state, user) {
+      this.$http.get(loginApi)
       sessionStorage.setItem('user', JSON.stringify(user))
       Object.assign(state, user)
     },
