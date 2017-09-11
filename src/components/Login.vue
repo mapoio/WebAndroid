@@ -50,11 +50,11 @@ export default {
   },
   methods: {
     ...mapActions([USER_SIGNIN]),
-    submit () { // TODO 这里的逻辑需要重新写
+    submit () { // TODO: 这里的逻辑需要重新写
       this.btn = true
       if (!this.form.id || !this.form.name) return
       this.USER_SIGNIN(this.form)
-      this.$router.replace({ path: '/home' })
+      this.$router.replace({ path: '/' })
     }
   }
 }
