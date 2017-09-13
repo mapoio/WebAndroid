@@ -51,7 +51,7 @@ export default {
     ...mapActions([USER_SIGNIN]),
     submit () { // TODO: 这里的逻辑需要重新写
       this.btn = false
-      if (!this.form.id || !this.form.name) return
+      if (!this.form.username || !this.form.password) return
       this.USER_SIGNIN(this.form)
       this.$router.replace({ path: '/' })
     }
