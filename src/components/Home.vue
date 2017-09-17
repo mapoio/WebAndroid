@@ -20,7 +20,7 @@
         </yd-cell-item>
     </yd-cell-group>
     <router-link to="/login">
-      <yd-button size="large" type="primary" v-bind:disabled="isLogin">登录</yd-button>
+      <yd-button size="large" type="primary" v-bind:disabled="isNologin">登录</yd-button>
     </router-link>
   </div>
 </template>
