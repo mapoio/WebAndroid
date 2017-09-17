@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Api from '../utils/api'
-import hello from '../utils/shortcuts'
+// import hello from '../utils/shortcuts'
 
 export const USER_SIGNIN = 'USER_SIGNIN' // 登录成功
 export const USER_SIGNOUT = 'USER_SIGNOUT' // 退出登录
@@ -39,19 +39,18 @@ export default {
   //     uid: null,
   //     portrait: null
   //  }
-  // TODO: 添加用户登录，获取access_token
+  // FIXME: 事务没有提交到store中导致需要刷新来提交事务
+  // 参考vuex中关于commit部分 在vue控制台中可以看到vuex有多个状态没有提交
   mutations: {
     [USER_SIGNIN] (state, user) {
       loginApi.request = user
-      this._devtoolHook.Vue.http.post(loginApi.url, loginApi.request).then(success => {
+      Vue.http.post(loginApi.url, loginApi.request).then(success => {
         // localStorage.setItem('user', JSON.stringify(user))
         setlocalStorage(success.data)
         Object.assign(state, user)
-        hello(state)
       }, failed => {
         state['expires_in'] = 0
       })
-      hello()
     },
     [USER_SIGNOUT] (state) {
       localStorage.removeItem('user')
