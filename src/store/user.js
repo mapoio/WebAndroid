@@ -38,7 +38,8 @@ export default {
   //     uid: null,
   //     portrait: null
   //  }
-  // TODO: 添加用户登录，获取access_token
+  // FIXME: 事务没有提交到store中导致需要刷新来提交事务
+  // 参考vuex中关于commit部分 在vue控制台中可以看到vuex有多个状态没有提交
   mutations: {
     [USER_SIGNIN] (state, user) {
       loginApi.request = user

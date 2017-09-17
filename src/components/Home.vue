@@ -1,5 +1,6 @@
 <template>
   <div>
+    <yd-navbar title="登陆调试页"></yd-navbar>
     <yd-cell-group>
       <yd-cell-item>
         <span slot="left">用户名</span>
