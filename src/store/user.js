@@ -42,15 +42,13 @@ export default {
   mutations: {
     [USER_SIGNIN] (state, user) {
       loginApi.request = user
-      this._devtoolHook.Vue.http.post(loginApi.url, loginApi.request).then(success => {
+      Vue.http.post(loginApi.url, loginApi.request).then(success => {
         // localStorage.setItem('user', JSON.stringify(user))
         setlocalStorage(success.data)
         Object.assign(state, user)
-        console.info(state)
       }, failed => {
         state['expires_in'] = 0
       })
-      console.info('login: ' + state)
     },
     [USER_SIGNOUT] (state) {
       localStorage.removeItem('user')
