@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Api from '../utils/api'
+import hello from '../utils/shortcuts'
 
 export const USER_SIGNIN = 'USER_SIGNIN' // 登录成功
 export const USER_SIGNOUT = 'USER_SIGNOUT' // 退出登录
@@ -46,11 +47,11 @@ export default {
         // localStorage.setItem('user', JSON.stringify(user))
         setlocalStorage(success.data)
         Object.assign(state, user)
-        console.info(state)
+        hello(state)
       }, failed => {
         state['expires_in'] = 0
       })
-      console.info('login: ' + state)
+      hello()
     },
     [USER_SIGNOUT] (state) {
       localStorage.removeItem('user')

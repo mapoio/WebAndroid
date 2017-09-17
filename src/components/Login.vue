@@ -19,7 +19,7 @@
 <template>
   <div>
     <v-header title="登录">
-      <router-link slot="left" to="/">返回</router-link>
+      <!-- <router-link slot="left" to="/">返回</router-link> -->
     </v-header>
     <form class="login" v-on:submit.prevent="submit">
       <div class="line">
@@ -48,11 +48,11 @@ export default {
       }
     }
   },
-  methods: {
+  methods: { // TODO: 第一次登录不能跳转
     ...mapActions([USER_SIGNIN]),
     submit () { // TODO: 这里的逻辑需要重新写
       this.btn = true
-      if (!this.form.username || !this.form.password) return
+      if (Boolean(!this.form.username) || Boolean(!this.form.password)) return
       this.USER_SIGNIN(this.form)
       this.$router.replace({ path: '/' })
     }
