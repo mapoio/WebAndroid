@@ -38,18 +38,12 @@ export default {
   //     uid: null,
   //     portrait: null
   //  }
-  // FIXME: 事务没有提交到store中导致需要刷新来提交事务
-  // 参考vuex中关于commit部分 在vue控制台中可以看到vuex有多个状态没有提交
+  // 修复bug 异步请求应该在actions
   mutations: {
     [USER_SIGNIN] (state, user) {
-      loginApi.request = user
-      Vue.http.post(loginApi.url, loginApi.request).then(success => {
-        // localStorage.setItem('user', JSON.stringify(user))
-        setlocalStorage(success.data)
-        Object.assign(state, user)
-      }, failed => {
-        state['expires_in'] = 0
-      })
+      Object.assign(state, user)
+      // console.log(state)
+      // console.log(user)
     },
     [USER_SIGNOUT] (state) {
       localStorage.removeItem('user')
@@ -60,7 +54,22 @@ export default {
     [USER_SIGNIN] ({
       commit
     }, user) {
-      commit(USER_SIGNIN, user)
+      Vue.http.post(loginApi.url, loginApi.request).then(success => {
+        setlocalStorage(success.data)
+        // console.log(success.data)
+        commit(USER_SIGNIN, success.data)
+        // Object.assign(state, success.data)
+        // console.log(state)
+        // console.log(user)
+      }, failed => {
+        // state['expires_in'] = 0
+        commit(USER_SIGNIN, {
+          access_token: '',
+          expires_in: '0',
+          token_type: '',
+          userName: ''
+        })
+      })
     },
     [USER_SIGNOUT] ({
       commit
