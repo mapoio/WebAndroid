@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Api from '../utils/api'
+// import store from '../store'
 // import hello from '../utils/shortcuts'
 
 export const USER_SIGNIN = 'USER_SIGNIN' // 登录成功
@@ -42,7 +43,7 @@ export default {
   // FIXME: 事务没有提交到store中导致需要刷新来提交事务
   // 参考vuex中关于commit部分 在vue控制台中可以看到vuex有多个状态没有提交
   mutations: {
-    [USER_SIGNIN] (state, user) {
+    USER_SIGNIN (state, user) {
       loginApi.request = user
       Vue.http.post(loginApi.url, loginApi.request).then(success => {
         // localStorage.setItem('user', JSON.stringify(user))
@@ -58,11 +59,15 @@ export default {
     }
   },
   actions: {
-    [USER_SIGNIN] ({
-      commit
-    }, user) {
-      commit(USER_SIGNIN, user)
+    USER_SIGNIN ({commit}, user) {
+      commit('USER_SIGNIN', user)
+      // console.info(user)
     },
+
+    // USER_SIGNIN ( {commit}, user) {
+    //   commit(USER_SIGNIN, user)
+    // },
+
     [USER_SIGNOUT] ({
       commit
     }) {
