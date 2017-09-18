@@ -61,10 +61,9 @@ export default {
   actions: {
     USER_SIGNIN ({commit}, user) {
       commit('USER_SIGNIN', user)
-      // console.info(user)
     },
 
-    // USER_SIGNIN ( {commit}, user) {
+    // USER_SIGNIN ({commit}, user) {
     //   commit(USER_SIGNIN, user)
     // },
 
