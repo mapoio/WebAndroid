@@ -4,7 +4,7 @@
     <yd-cell-group>
       <yd-cell-item>
         <span slot="left">用户名</span>
-        <span slot="right"> {{user.userName}} </span>
+        <span slot="right"> {{user.username}} </span>
       </yd-cell-item>
       <yd-cell-item>
         <span slot="left">Token类型</span>
@@ -12,7 +12,7 @@
       </yd-cell-item>
       <yd-cell-item>
         <span slot="left">Token过期时间</span>
-        <span slot="right"> {{user.expires_in}} </span>
+        <span slot="right"> {{user.exp}} </span>
       </yd-cell-item>
     </yd-cell-group>
     <yd-cell-group title="访问Token">
