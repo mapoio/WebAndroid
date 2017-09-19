@@ -7,9 +7,6 @@ let loginApi = Api.login
 
 let accesslocalStorage = items => {
   let states = {}
-  // for (let item in items) {
-  //   states.item = JSON.parse(localStorage.getItem(item)) || {}
-  // }
   items.forEach(item => {
     states[item] = JSON.parse(localStorage.getItem(item)) || {}
   })
@@ -18,32 +15,23 @@ let accesslocalStorage = items => {
 
 let setlocalStorage = items => {
   for (let item in items) {
-    localStorage.setItem(item, JSON.stringify(items[item]))
+    if (item !== 'message') {
+      localStorage.setItem(item, JSON.stringify(items[item]))
+    }
   }
 }
 
 export default {
-  // state: JSON.parse(localStorage.getItem('user')) || {},
   state: accesslocalStorage([
     'access_token',
     'expires_in',
     'token_type',
     'userName'
   ]),
-  // {
-  //   domain: 'http://test.example.com',
-  //   userInfo: {
-  //     nick: null,
-  //     ulevel: null,
-  //     uid: null,
-  //     portrait: null
-  //  }
   // 修复bug 异步请求应该在actions
   mutations: {
     [USER_SIGNIN] (state, user) {
       Object.assign(state, user)
-      // console.log(state)
-      // console.log(user)
     },
     [USER_SIGNOUT] (state) {
       localStorage.removeItem('user')
@@ -56,18 +44,13 @@ export default {
     }, user) {
       Vue.http.post(loginApi.url, loginApi.request).then(success => {
         setlocalStorage(success.data)
-        // console.log(success.data)
         commit(USER_SIGNIN, success.data)
-        // Object.assign(state, success.data)
-        // console.log(state)
-        // console.log(user)
       }, failed => {
-        // state['expires_in'] = 0
         commit(USER_SIGNIN, {
           access_token: '',
-          expires_in: '0',
+          exp: 0,
           token_type: '',
-          userName: ''
+          username: ''
         })
       })
     },
