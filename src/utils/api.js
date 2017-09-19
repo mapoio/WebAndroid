@@ -30,7 +30,7 @@ export default {
       data: {
         access_token: '',
         exp: 3600,
-        tokem_type: 'Basic',
+        token_type: 'Basic',
         username: ''
       }
     }

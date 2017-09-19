@@ -47,7 +47,7 @@ export default {
       }
     }
   },
-  methods: {
+  methods: { // TODO: 第一次登录不能跳转
     ...mapActions([USER_SIGNIN]),
     submit () { // TODO: 这里的逻辑需要重新写
       this.btn = false

@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Api from '../utils/api'
+// import store from '../store'
+// import hello from '../utils/shortcuts'
 
 export const USER_SIGNIN = 'USER_SIGNIN' // 登录成功
 export const USER_SIGNOUT = 'USER_SIGNOUT' // 退出登录
@@ -15,23 +17,28 @@ let accesslocalStorage = items => {
 
 let setlocalStorage = items => {
   for (let item in items) {
-    if (item !== 'message') {
+    if (item !== 'exp') {
+      localStorage.setItem(item, JSON.stringify(items[item]))
+    } else {
+      items[item] = deelExpTime(item)
       localStorage.setItem(item, JSON.stringify(items[item]))
     }
   }
 }
 
+let deelExpTime = exp => {
+  exp = Date.now() + 3600 * 1000
+  return exp
+}
+
 export default {
-  state: accesslocalStorage([
-    'access_token',
-    'expires_in',
-    'token_type',
-    'userName'
-  ]),
+
+  state: accesslocalStorage(Object.keys(loginApi.response.data)),
   // 修复bug 异步请求应该在actions
   mutations: {
     [USER_SIGNIN] (state, user) {
       Object.assign(state, user)
+      console.info(state)
     },
     [USER_SIGNOUT] (state) {
       localStorage.removeItem('user')
@@ -43,8 +50,9 @@ export default {
       commit
     }, user) {
       Vue.http.post(loginApi.url, loginApi.request).then(success => {
-        setlocalStorage(success.data)
-        commit(USER_SIGNIN, success.data)
+        // console.info(success.data.data)
+        setlocalStorage(success.data.data)
+        commit(USER_SIGNIN, success.data.data)
       }, failed => {
         commit(USER_SIGNIN, {
           access_token: '',
@@ -54,6 +62,7 @@ export default {
         })
       })
     },
+
     [USER_SIGNOUT] ({
       commit
     }) {
