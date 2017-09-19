@@ -18,13 +18,18 @@ Vue.use(VueResource)
 router.beforeEach(({meta, path}, from, next) => {
   var { auth = true } = meta
   // var isLogin = Boolean(store.state.user.expires_in) // true用户已登录， false用户未登录
-  let timeleft = Date.now() - Date.parse(store.state.user.expires_in)
-  var isLogin = Boolean(timeleft < 3600000)
+  let timeleft = Date.now() - Date.parse(store.state.user.exp)
+  var isLogin = Boolean(timeleft < 0)
   if (auth && !isLogin && path !== '/login') {
     return next({ path: '/login' })
   }
   next()
 })
+
+Vue.http.headers.common['Authorization'] = store.state.user.exp + ' ' + store.state.user.access_token
+
+// 请求后检查异常处理，不同的异常进行不同的操作
+// Vue.http.interceptors.push
 
 new Vue({
   el: '#app',
