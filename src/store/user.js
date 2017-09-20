@@ -17,12 +17,7 @@ let accesslocalStorage = items => {
 
 let setlocalStorage = items => {
   for (let item in items) {
-    if (item !== 'exp') {
-      localStorage.setItem(item, JSON.stringify(items[item]))
-    } else {
-      items[item] = deelExpTime(item)
-      localStorage.setItem(item, JSON.stringify(items[item]))
-    }
+    localStorage.setItem(item, JSON.stringify(items[item]))
   }
 }
 
@@ -50,16 +45,12 @@ export default {
       commit
     }, user) {
       Vue.http.post(loginApi.url, loginApi.request).then(success => {
-        // console.info(success.data.data)
-        setlocalStorage(success.data.data)
-        commit(USER_SIGNIN, success.data.data)
+        let data = success.data.data
+        data.exp = deelExpTime(data.exp)
+        setlocalStorage(data)
+        commit(USER_SIGNIN, data)
       }, failed => {
-        commit(USER_SIGNIN, {
-          access_token: '',
-          exp: 0,
-          token_type: '',
-          username: ''
-        })
+        commit(USER_SIGNIN, loginApi.response.data)
       })
     },
 
