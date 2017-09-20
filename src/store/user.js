@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Api from '../utils/api'
 import router from '../router'
+import { log } from '../utils/shortcuts'
 // import store from '../store'
 // import hello from '../utils/shortcuts'
 
@@ -49,6 +50,7 @@ export default {
         setlocalStorage(data)
         commit(USER_SIGNIN, data)
         router.replace({ path: '/' })
+        log.info(log)
       }, failed => {
         commit(USER_SIGNIN, loginApi.response.data)
       })

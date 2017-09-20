@@ -1,6 +1,22 @@
 // import vueResource from 'vue-resource'
-export default function hello (store) {
-  console.info(store)
+const LOG_PRINT = true
+
+export let log = {
+  info (info) {
+    LOG_PRINT ? console.info(info) : {}
+  },
+  warn (warn) {
+    LOG_PRINT ? console.warn(warn) : {}
+  },
+  debug (debug) {
+    LOG_PRINT ? console.debug(debug) : {}
+  },
+  log (log) {
+    LOG_PRINT ? console.log(log) : {}
+  },
+  error (error) {
+    LOG_PRINT ? console.error(error) : {}
+  }
 }
-// TODO: 封装适合我们业务的请求函数包括GET POST PUT DELETE
-// TODO: 实现自动在headers中插入请求token以及请求失败时的同意处理机制，重新登陆或者返回
+
+export default {}
