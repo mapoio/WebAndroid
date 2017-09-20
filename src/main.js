@@ -28,7 +28,7 @@ router.beforeEach(({meta, path}, from, next) => {
   next()
 })
 
-Vue.http.headers.common['Authorization'] = store.state.user.exp + ' ' + store.state.user.access_token
+Vue.http.headers.common['Authorization'] = store.state.user.token_type + ' ' + store.state.user.access_token
 
 // 请求后检查异常处理，不同的异常进行不同的操作
 // Vue.http.interceptors.push
