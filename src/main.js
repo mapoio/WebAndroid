@@ -17,13 +17,21 @@ Vue.use(VueResource)
 // 每次请求都将检查登录状态
 router.beforeEach(({meta, path}, from, next) => {
   var { auth = true } = meta
-  var isLogin = Boolean(store.state.user.id) // true用户已登录， false用户未登录
-
+  // var isLogin = Boolean(store.state.user.expires_in) // true用户已登录， false用户未登录
+  let timeleft = Date.now() - store.state.user.exp
+  var isLogin = Boolean(timeleft < 0)
   if (auth && !isLogin && path !== '/login') {
+    // console.info('before')
     return next({ path: '/login' })
   }
+  // console.info(next({ path: '/login' }))
   next()
 })
+
+Vue.http.headers.common['Authorization'] = store.state.user.token_type + ' ' + store.state.user.access_token
+
+// 请求后检查异常处理，不同的异常进行不同的操作
+// Vue.http.interceptors.push
 
 new Vue({
   el: '#app',
