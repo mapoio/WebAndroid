@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Api from '../utils/api'
+import router from '../router'
 // import store from '../store'
 // import hello from '../utils/shortcuts'
 
@@ -33,7 +34,6 @@ export default {
   mutations: {
     [USER_SIGNIN] (state, user) {
       Object.assign(state, user)
-      console.info(state)
     },
     [USER_SIGNOUT] (state) {
       localStorage.removeItem('user')
@@ -49,6 +49,7 @@ export default {
         data.exp = deelExpTime(data.exp)
         setlocalStorage(data)
         commit(USER_SIGNIN, data)
+        router.replace({ path: '/' })
       }, failed => {
         commit(USER_SIGNIN, loginApi.response.data)
       })
