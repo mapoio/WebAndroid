@@ -34,11 +34,9 @@ let deelExpTime = exp => {
 export default {
 
   state: accesslocalStorage(Object.keys(loginApi.response.data)),
-  // 修复bug 异步请求应该在actions
   mutations: {
     [USER_SIGNIN] (state, user) {
       Object.assign(state, user)
-      console.info(state)
     },
     [USER_SIGNOUT] (state) {
       localStorage.removeItem('user')
@@ -50,16 +48,10 @@ export default {
       commit
     }, user) {
       Vue.http.post(loginApi.url, loginApi.request).then(success => {
-        // console.info(success.data.data)
         setlocalStorage(success.data.data)
         commit(USER_SIGNIN, success.data.data)
       }, failed => {
-        commit(USER_SIGNIN, {
-          access_token: '',
-          exp: 0,
-          token_type: '',
-          username: ''
-        })
+        commit(USER_SIGNIN, Object.keys(loginApi.response.data))
       })
     },
 

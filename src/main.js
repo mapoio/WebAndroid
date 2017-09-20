@@ -21,8 +21,10 @@ router.beforeEach(({meta, path}, from, next) => {
   let timeleft = Date.now() - store.state.user.exp
   var isLogin = Boolean(timeleft < 0)
   if (auth && !isLogin && path !== '/login') {
+    // console.info('before')
     return next({ path: '/login' })
   }
+  // console.info(next({ path: '/login' }))
   next()
 })
 
