@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Api from '../utils/api'
+import router from '../router'
 // import store from '../store'
 // import hello from '../utils/shortcuts'
 
@@ -17,12 +18,7 @@ let accesslocalStorage = items => {
 
 let setlocalStorage = items => {
   for (let item in items) {
-    if (item !== 'exp') {
-      localStorage.setItem(item, JSON.stringify(items[item]))
-    } else {
-      items[item] = deelExpTime(item)
-      localStorage.setItem(item, JSON.stringify(items[item]))
-    }
+    localStorage.setItem(item, JSON.stringify(items[item]))
   }
 }
 
@@ -48,10 +44,13 @@ export default {
       commit
     }, user) {
       Vue.http.post(loginApi.url, loginApi.request).then(success => {
-        setlocalStorage(success.data.data)
-        commit(USER_SIGNIN, success.data.data)
+        let data = success.data.data
+        data.exp = deelExpTime(data.exp)
+        setlocalStorage(data)
+        commit(USER_SIGNIN, data)
+        router.replace({ path: '/' })
       }, failed => {
-        commit(USER_SIGNIN, Object.keys(loginApi.response.data))
+        commit(USER_SIGNIN, loginApi.response.data)
       })
     },
 

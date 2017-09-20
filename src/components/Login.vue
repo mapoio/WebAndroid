@@ -3,21 +3,21 @@
 </style>
 <template>
   <!-- <div>
-      <v-header title="登录">
-        <router-link slot="left" to="/">返回</router-link>
-      </v-header>
-      <form class="login" v-on:submit.prevent="submit">
-        <div class="line">
-          <div v-show="btn && !form.id">id不能为空</div>
-          <input type="number" placeholder="输入你的id" v-model="form.id">
-        </div>
-        <div class="line">
-          <div v-show="btn && !form.name">用户名不能为空</div>
-          <input type="text" placeholder="输入你的用户名" v-model="form.name">
-        </div>
-        <button>登录</button>
-      </form>
-    </div> -->
+        <v-header title="登录">
+          <router-link slot="left" to="/">返回</router-link>
+        </v-header>
+        <form class="login" v-on:submit.prevent="submit">
+          <div class="line">
+            <div v-show="btn && !form.id">id不能为空</div>
+            <input type="number" placeholder="输入你的id" v-model="form.id">
+          </div>
+          <div class="line">
+            <div v-show="btn && !form.name">用户名不能为空</div>
+            <input type="text" placeholder="输入你的用户名" v-model="form.name">
+          </div>
+          <button>登录</button>
+        </form>
+      </div> -->
   <div>
     <yd-navbar title="登陆"></yd-navbar>
     <yd-cell-group>
@@ -53,7 +53,6 @@ export default {
       this.btn = false
       if (Boolean(!this.user.username) || Boolean(!this.user.password)) return
       this.USER_SIGNIN(this.user)
-      this.$router.replace({ path: '/' })
     }
   }
 }
