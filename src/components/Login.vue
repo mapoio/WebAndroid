@@ -2,22 +2,6 @@
 
 </style>
 <template>
-  <!-- <div>
-        <v-header title="登录">
-          <router-link slot="left" to="/">返回</router-link>
-        </v-header>
-        <form class="login" v-on:submit.prevent="submit">
-          <div class="line">
-            <div v-show="btn && !form.id">id不能为空</div>
-            <input type="number" placeholder="输入你的id" v-model="form.id">
-          </div>
-          <div class="line">
-            <div v-show="btn && !form.name">用户名不能为空</div>
-            <input type="text" placeholder="输入你的用户名" v-model="form.name">
-          </div>
-          <button>登录</button>
-        </form>
-      </div> -->
   <div>
     <yd-navbar title="登陆"></yd-navbar>
     <yd-cell-group>
@@ -47,11 +31,18 @@ export default {
       }
     }
   },
-  methods: { // TODO: 第一次登录不能跳转
+  methods: {
     ...mapActions([USER_SIGNIN]),
-    submit () { // TODO: 这里的逻辑需要重新写
+    loading () {
+      this.$dialog.loading.open('正在登陆')
+      setTimeout(() => {
+        this.$dialog.loading.close()
+      }, 400)
+    },
+    submit () { // TODO: 重写这里的逻辑，能够取到登录状态 使用promise
       this.btn = false
       if (Boolean(!this.user.username) || Boolean(!this.user.password)) return
+      this.loading()
       this.USER_SIGNIN(this.user)
     }
   }
