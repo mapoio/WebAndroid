@@ -31,7 +31,7 @@
       </yd-cell-item>
       <yd-button size="large" type="primary" v-model="btn" @click.native="submit">登陆</yd-button>
         <router-link to="/register">
-          <yd-button size="large" type="primary">新用户</yd-button>
+          <yd-button size="large" bgcolor="#00ADFD" color="#fff" >新用户</yd-button>
         </router-link>
     </yd-cell-group>
   </div>
@@ -39,15 +39,13 @@
 <script>
 import { mapActions } from 'vuex'
 import { USER_SIGNIN } from '../store/user'
+import Api from '../utils/api'
 
 export default {
   data () {
     return {
       btn: true, // true 已经提交过， false没有提交过
-      user: {
-        username: '',
-        password: ''
-      }
+      user: Api.login.request
     }
   },
   methods: { // TODO: 第一次登录不能跳转
