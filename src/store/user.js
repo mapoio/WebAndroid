@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import Api from '../utils/api'
 import router from '../router'
-import { log } from '../utils/shortcuts'
-// import store from '../store'
-// import hello from '../utils/shortcuts'
 
 export const USER_SIGNIN = 'USER_SIGNIN' // 登录成功
 export const USER_SIGNOUT = 'USER_SIGNOUT' // 退出登录
@@ -35,9 +32,10 @@ export default {
     [USER_SIGNIN] (state, user) {
       Object.assign(state, user)
     },
-    [USER_SIGNOUT] (state) {
-      localStorage.removeItem('user')
-      Object.keys(state).forEach(k => Vue.delete(state, k))
+    [USER_SIGNOUT] (state, user) {
+      // localStorage.removeItem('user')
+      // Object.keys(state).forEach(k => Vue.delete(state, k))
+      Object.assign(state, user)
     }
   },
   actions: {
@@ -50,7 +48,6 @@ export default {
         setlocalStorage(data)
         commit(USER_SIGNIN, data)
         router.replace({ path: '/' })
-        log.info(log)
       }, failed => {
         commit(USER_SIGNIN, loginApi.response.data)
       })
@@ -59,7 +56,10 @@ export default {
     [USER_SIGNOUT] ({
       commit
     }) {
-      commit(USER_SIGNOUT)
+      let data = loginApi.response.data
+      setlocalStorage(data)
+      commit(USER_SIGNOUT, data)
+      router.replace({ path: '/login' })
     }
   }
 }
