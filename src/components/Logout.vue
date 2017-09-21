@@ -1,20 +1,20 @@
 <style lang="less" scoped>
-.btn {
-  padding: 50px;
+.center{
   text-align: center;
-  button {
-    padding: 5px 10px;
-  }
 }
 </style>
 <template>
   <div>
-    <v-header title="退出">
-      <router-link slot="left" to="/home">返回</router-link>
-    </v-header>
-    <div class="btn">
-      <button v-on:click="submit">确认退出</button>
+    <yd-navbar title="注销"></yd-navbar>
+    <div class="center">
+        <yd-icon name="warn" size="4rem" color="#FF685D" ></yd-icon>
     </div>
+    <router-link to="/login">
+      <yd-button size="large" type="danger" @click.native="submit">注销</yd-button>
+    </router-link>
+    <router-link to="/">
+      <yd-button size="large" type="primary">返回</yd-button>
+    </router-link>
   </div>
 </template>
 <script>
@@ -25,7 +25,6 @@ export default {
     ...mapActions([USER_SIGNOUT]),
     submit () {
       this.USER_SIGNOUT()
-      this.$router.replace({ path: '/login' })
     }
   }
 }

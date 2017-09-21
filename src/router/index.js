@@ -18,7 +18,7 @@ export default new Router({
       name: 'Login',
       component: Login
     }, {
-      path: '/Logout',
+      path: '/logout',
       name: 'Logout',
       component: Logout
     }, {

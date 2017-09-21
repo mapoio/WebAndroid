@@ -20,9 +20,16 @@
             <yd-textarea slot="right" v-text="user.access_token" maxlength="100" readonly> {{user.access_token}} </yd-textarea>
         </yd-cell-item>
     </yd-cell-group>
-    <router-link to="/login">
-      <yd-button size="large" type="primary" v-bind:disabled="isNologin">登录</yd-button>
-    </router-link>
+    <div v-if="islogin">
+      <router-link to="/login">
+        <yd-button size="large" type="primary">登录</yd-button>
+      </router-link>
+    </div>
+    <div v-else>
+      <router-link to="/logout">
+        <yd-button size="large" type="danger">注销</yd-button>
+      </router-link>
+    </div>
   </div>
 </template>
 <script>
@@ -35,7 +42,7 @@ export default {
   },
   computed: mapState({
     user: state => state.user,
-    isNologin: Boolean(state => state.user.access_token)
+    islogin: Boolean(state => state.user.access_token)
   })
 }
 </script>
