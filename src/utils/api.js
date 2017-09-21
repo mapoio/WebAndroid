@@ -24,8 +24,8 @@ export default {
     },
     response: {
       message: {
-        State: 1,
-        Info: null
+        state: 1,
+        info: null
       },
       data: {
         access_token: '',
@@ -33,6 +33,23 @@ export default {
         token_type: 'Basic',
         username: ''
       }
+    }
+  },
+  register: {
+    url: DevHost + '/Account/Register',
+    description: '注册',
+    version: '1.0',
+    methods: ['POST'],
+    request: {
+      username: 'admin',
+      password: 'admin'
+    },
+    response: {
+      message: {
+        state: 1,
+        info: null
+      },
+      data: {}
     }
   }
 }
