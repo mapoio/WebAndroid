@@ -17,7 +17,7 @@
     </yd-cell-group>
     <yd-cell-group title="访问Token">
         <yd-cell-item>
-            <yd-textarea slot="right" v-text="user.access_token" maxlength="100" readonly> {{user.access_token}} </yd-textarea>
+            <yd-textarea slot="right" v-text="user.access_token" maxlength="100" readonly></yd-textarea>
         </yd-cell-item>
     </yd-cell-group>
     <div v-if="islogin">
