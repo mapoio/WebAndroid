@@ -30,6 +30,9 @@
         <yd-input slot="right" type="password" v-model="user.password" placeholder="请输入密码"></yd-input>
       </yd-cell-item>
       <yd-button size="large" type="primary" v-model="btn" @click.native="submit">登陆</yd-button>
+        <router-link to="/register">
+          <yd-button size="large" type="primary">新用户</yd-button>
+        </router-link>
     </yd-cell-group>
   </div>
 </template>
