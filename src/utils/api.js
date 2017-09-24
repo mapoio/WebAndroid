@@ -23,7 +23,7 @@ export default {
       password: 'admin'
     },
     response: {
-      code:1,
+      code: 1,
       message: '',
       data: {
         access_token: '',
@@ -43,7 +43,7 @@ export default {
       password: 'admin'
     },
     response: {
-      code:1,
+      code: 1,
       message: '',
       data: {}
     }
