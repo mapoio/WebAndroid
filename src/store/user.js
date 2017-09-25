@@ -51,6 +51,7 @@ export default {
         commit(USER_SIGNIN, data)
       }, failed => {
         commit(USER_SIGNIN, loginApi.response.data)
+        throw new Error('请求失败，请检查API接口或者网络状态')
       })
       return post
     },
