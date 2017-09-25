@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Api from '../utils/api'
-import router from '../router'
 import { log } from '../utils/shortcuts'
 
 export const USER_REGISTER = 'USER_REGISTER' // 注册成功
@@ -45,15 +44,15 @@ export default {
     [USER_SIGNIN] ({
       commit
     }, user) {
-      Vue.http.post(loginApi.url, user).then(success => {
+      let post = Vue.http.post(loginApi.url, loginApi.request).then(success => {
         let data = success.data.data
         data.exp = deelExpTime(data.exp)
         setlocalStorage(data)
         commit(USER_SIGNIN, data)
-        router.replace({ path: '/' })
       }, failed => {
         commit(USER_SIGNIN, loginApi.response.data)
       })
+      return post
     },
 
     [USER_SIGNOUT] ({
@@ -62,7 +61,7 @@ export default {
       let data = loginApi.response.data
       setlocalStorage(data)
       commit(USER_SIGNOUT, data)
-      router.replace({ path: '/login' })
+      return Promise.resolve()
     },
     [USER_REGISTER] ({
       commit
