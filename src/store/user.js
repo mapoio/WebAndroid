@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import Api from '../utils/api'
+import { log } from '../utils/shortcuts'
 
+export const USER_REGISTER = 'USER_REGISTER' // 注册成功
 export const USER_SIGNIN = 'USER_SIGNIN' // 登录成功
 export const USER_SIGNOUT = 'USER_SIGNOUT' // 退出登录
 let loginApi = Api.login
+let registerApi = Api.register
 
 let accesslocalStorage = items => {
   let states = {}
@@ -59,6 +62,14 @@ export default {
       setlocalStorage(data)
       commit(USER_SIGNOUT, data)
       return Promise.resolve()
+    },
+    [USER_REGISTER] ({
+      commit
+    }, user) {
+      Vue.http.post(registerApi.url, registerApi.request).then(success => {
+        log.log('ty') // TODO: 用promise返回状态
+        // alert('注册成功！')
+      })
     }
   }
 }

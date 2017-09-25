@@ -14,21 +14,22 @@
         <yd-input slot="right" type="password" v-model="user.password" placeholder="请输入密码"></yd-input>
       </yd-cell-item>
       <yd-button size="large" type="primary" v-model="btn" @click.native="submit">登陆</yd-button>
+        <router-link to="/register">
+          <yd-button size="large" bgcolor="#00ADFD" color="#fff" >新用户</yd-button>
+        </router-link>
     </yd-cell-group>
   </div>
 </template>
 <script>
 import { mapActions } from 'vuex'
 import { USER_SIGNIN } from '../store/user'
+import Api from '../utils/api'
 
 export default {
   data () {
     return {
       btn: true, // true 已经提交过， false没有提交过
-      user: {
-        username: '',
-        password: ''
-      }
+      user: Api.login.request
     }
   },
   methods: {
