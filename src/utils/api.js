@@ -23,8 +23,8 @@ export default {
       password: 'admin'
     },
     response: {
-      code: 1,
-      message: '',
+      code: 20,
+      message: 'success',
       data: {
         access_token: '',
         exp: 3600,
@@ -43,8 +43,8 @@ export default {
       password: 'admin'
     },
     response: {
-      code: 1,
-      message: '',
+      code: 21,
+      message: 'success',
       data: {}
     }
   }

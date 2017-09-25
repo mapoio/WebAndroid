@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Api from '../utils/api'
-import router from '../router'
 
 export const USER_SIGNIN = 'USER_SIGNIN' // 登录成功
 export const USER_SIGNOUT = 'USER_SIGNOUT' // 退出登录
@@ -42,15 +41,15 @@ export default {
     [USER_SIGNIN] ({
       commit
     }, user) {
-      Vue.http.post(loginApi.url, loginApi.request).then(success => {
+      let post = Vue.http.post(loginApi.url, loginApi.request).then(success => {
         let data = success.data.data
         data.exp = deelExpTime(data.exp)
         setlocalStorage(data)
         commit(USER_SIGNIN, data)
-        router.replace({ path: '/' })
       }, failed => {
         commit(USER_SIGNIN, loginApi.response.data)
       })
+      return post
     },
 
     [USER_SIGNOUT] ({
@@ -59,7 +58,7 @@ export default {
       let data = loginApi.response.data
       setlocalStorage(data)
       commit(USER_SIGNOUT, data)
-      router.replace({ path: '/login' })
+      return Promise.resolve()
     }
   }
 }
