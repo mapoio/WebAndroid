@@ -34,10 +34,9 @@ export default {
   },
   methods: {
     ...mapActions([USER_SIGNIN]),
-    submit () { // TODO: 重写这里的逻辑，能够取到登录状态 使用promise
+    submit () {
       this.btn = false
       if (Boolean(!this.user.username) || Boolean(!this.user.password)) return
-      // this.loading()
       let post = new Promise((resolve, reject) => {
         this.$dialog.loading.open('正在登陆')
         resolve(this.USER_SIGNIN(this.user))
@@ -53,7 +52,7 @@ export default {
         setTimeout(() => {
           this.$dialog.loading.close()
         }, 1000)
-        throw new Error('登陆失败，请检查接口')
+        throw new Error(data)
       })
     }
   }

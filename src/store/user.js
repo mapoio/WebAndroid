@@ -44,13 +44,14 @@ export default {
     [USER_SIGNIN] ({
       commit
     }, user) {
-      let post = Vue.http.post(loginApi.url, loginApi.request).then(success => {
+      let post = Vue.http.post(loginApi.url, user).then(success => {
         let data = success.data.data
         data.exp = deelExpTime(data.exp)
         setlocalStorage(data)
         commit(USER_SIGNIN, data)
       }, failed => {
         commit(USER_SIGNIN, loginApi.response.data)
+        throw new Error('请求失败，请检查API接口或者网络状态')
       })
       return post
     },
