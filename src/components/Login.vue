@@ -34,17 +34,27 @@ export default {
   },
   methods: {
     ...mapActions([USER_SIGNIN]),
-    loading () {
-      this.$dialog.loading.open('正在登陆')
-      setTimeout(() => {
-        this.$dialog.loading.close()
-      }, 400)
-    },
     submit () { // TODO: 重写这里的逻辑，能够取到登录状态 使用promise
       this.btn = false
       if (Boolean(!this.user.username) || Boolean(!this.user.password)) return
-      this.loading()
-      this.USER_SIGNIN(this.user)
+      // this.loading()
+      let post = new Promise((resolve, reject) => {
+        this.$dialog.loading.open('正在登陆')
+        resolve(this.USER_SIGNIN(this.user))
+      })
+      post.then(data => {
+        this.$dialog.loading.open('登陆成功，正在跳转')
+        setTimeout(() => {
+          this.$dialog.loading.close()
+          this.$router.replace({ path: '/' })
+        }, 1000)
+      }).catch(data => {
+        this.$dialog.loading.open('登陆失败')
+        setTimeout(() => {
+          this.$dialog.loading.close()
+        }, 1000)
+        throw new Error('登陆失败，请检查接口')
+      })
     }
   }
 }
