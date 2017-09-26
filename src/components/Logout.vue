@@ -24,7 +24,23 @@ export default {
   methods: {
     ...mapActions([USER_SIGNOUT]),
     submit () {
-      this.USER_SIGNOUT()
+      let signout = new Promise((resolve, reject) => {
+        this.$dialog.loading.open('正在注销')
+        resolve(this.USER_SIGNOUT())
+      })
+      signout.then(data => {
+        this.$dialog.loading.open('注销成功')
+        setTimeout(() => {
+          this.$dialog.loading.close()
+          this.$router.replace({ path: '/login' })
+        }, 1000)
+      }).catch(data => {
+        this.$dialog.loading.open('注销失败')
+        setTimeout(() => {
+          this.$dialog.loading.close()
+        }, 1000)
+        throw new Error('用户无法注销')
+      })
     }
   }
 }

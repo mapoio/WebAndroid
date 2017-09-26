@@ -2,22 +2,6 @@
 
 </style>
 <template>
-  <!-- <div>
-        <v-header title="登录">
-          <router-link slot="left" to="/">返回</router-link>
-        </v-header>
-        <form class="login" v-on:submit.prevent="submit">
-          <div class="line">
-            <div v-show="btn && !form.id">id不能为空</div>
-            <input type="number" placeholder="输入你的id" v-model="form.id">
-          </div>
-          <div class="line">
-            <div v-show="btn && !form.name">用户名不能为空</div>
-            <input type="text" placeholder="输入你的用户名" v-model="form.name">
-          </div>
-          <button>登录</button>
-        </form>
-      </div> -->
   <div>
     <yd-navbar title="登陆"></yd-navbar>
     <yd-cell-group>
@@ -48,12 +32,28 @@ export default {
       user: Api.login.request
     }
   },
-  methods: { // TODO: 第一次登录不能跳转
+  methods: {
     ...mapActions([USER_SIGNIN]),
-    submit () { // TODO: 这里的逻辑需要重新写
+    submit () {
       this.btn = false
       if (Boolean(!this.user.username) || Boolean(!this.user.password)) return
-      this.USER_SIGNIN(this.user)
+      let post = new Promise((resolve, reject) => {
+        this.$dialog.loading.open('正在登陆')
+        resolve(this.USER_SIGNIN(this.user))
+      })
+      post.then(data => {
+        this.$dialog.loading.open('登陆成功，正在跳转')
+        setTimeout(() => {
+          this.$dialog.loading.close()
+          this.$router.replace({ path: '/' })
+        }, 1000)
+      }).catch(data => {
+        this.$dialog.loading.open('登陆失败')
+        setTimeout(() => {
+          this.$dialog.loading.close()
+        }, 1000)
+        throw new Error(data)
+      })
     }
   }
 }
