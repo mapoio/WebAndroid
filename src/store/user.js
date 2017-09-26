@@ -69,7 +69,6 @@ export default {
     }, user) {
       Vue.http.post(registerApi.url, registerApi.request).then(success => {
         log.log('ty') // TODO: 用promise返回状态
-        // alert('注册成功！')
       })
     }
   }
