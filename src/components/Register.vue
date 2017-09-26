@@ -50,8 +50,14 @@ export default {
     ...mapActions([USER_REGISTER]),
     submit () {
       this.btn = false
-      if (this.user.password !== this.user.password1) {
-        this.openNotify('两次密码不一样！')
+      // console.info(this)
+      console.info(this.user.username)
+      if (this.user.username === '') {
+        this.openNotify('用户名不能为空')
+      } else if (this.user.password === '' || this.user.password === null) {
+        this.openNotify('密码不能为空')
+      } else if (this.user.password !== this.user.password1) {
+        this.openNotify('两次密码不相同')
       } else if (Boolean(this.user.username) && Boolean(this.user.password)) {
         this.USER_REGISTER(this.user)
         this.openNotify('注册成功，正在跳转')
