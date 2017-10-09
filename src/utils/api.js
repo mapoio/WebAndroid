@@ -9,12 +9,15 @@
 // response: {message: 'success login', status: '1', data: {token: 'JKIGFJKFF984654VFFDFG3216', exp: '1504932618'}}
 // }
 // http://easy-mock.com/mock/59b39867e0dc663341a34043/webandroid/login
-let DevHost = 'http://easy-mock.com/mock/59b39867e0dc663341a34043/webandroid'
-// let DevHost = 'http://118.89.57.222:7777/api'
+let DevHost = 'http://easy-mock.com/mock/59b39867e0dc663341a34043/webandroid' // 开发地址，优先级最低
+let TestHost = '' // 后台联调地址，优先级中等
+let ProductionHost = '' // 生产环境地址，优先级别最高
+
+let Host = ProductionHost !== '' ? ProductionHost : (TestHost !== '' ? TestHost : DevHost)
 
 export default {
   login: {
-    url: DevHost + '/Account/Login',
+    url: Host + '/Account/Login',
     description: '登录',
     version: '1.0',
     methods: ['POST'],
@@ -34,7 +37,7 @@ export default {
     }
   },
   register: {
-    url: DevHost + '/Account/Register',
+    url: Host + '/Account/Register',
     description: '注册',
     version: '1.0',
     methods: ['POST'],

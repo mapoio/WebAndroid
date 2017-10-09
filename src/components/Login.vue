@@ -52,7 +52,7 @@ export default {
         setTimeout(() => {
           this.$dialog.loading.close()
         }, 1000)
-        throw new Error(data)
+        throw data
       })
     }
   }
