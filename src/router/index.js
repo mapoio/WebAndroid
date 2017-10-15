@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import Login from '@/components/Login'
 import Logout from '@/components/Logout'
 import Register from '@/components/Register'
+import Android from '@/components/Android'
 
 Vue.use(Router)
 
@@ -25,6 +26,10 @@ export default new Router({
       path: '/Register',
       name: 'Register',
       component: Register
+    }, {
+      path: '/Android',
+      name: 'Android',
+      component: Android
     }
   ]
 })
