@@ -6,6 +6,18 @@
         <span slot="left">定位地址</span>
         <span slot="right"> {{addresses}} </span>
       </yd-cell-item>
+      <yd-cell-item>
+        <span slot="left">定位城市</span>
+        <span slot="right"> {{city}} </span>
+      </yd-cell-item>
+      <yd-cell-item>
+        <span slot="left">网络状态</span>
+        <span slot="right"> {{networkType}} </span>
+      </yd-cell-item>
+      <yd-cell-item>
+        <span slot="left">加速度状态</span>
+        <span slot="right"> {{accelera}} </span>
+      </yd-cell-item>
     </yd-cell-group>
     <yd-button size="large" type="primary" @click.native="gps">开始定位</yd-button>
     <yd-cell-group>
@@ -22,22 +34,24 @@ export default {
   data () {
     return {
       addresses: '',
-      city: ''
+      city: '',
+      networkType: '',
+      accelera: ''
     }
   },
   methods: {
     gps () {
-      let gps = new Promise((resolve, reject) => {
-        window.plus.geolocation.getCurrentPosition((position) => {
-          resolve(position)
-        }, (error) => {
-          reject(error)
-        })
-      })
-      gps.then(success => {
-        console.log(success)
+      console.log(this.os)
+      this.networkType = this.$plus.networkinfo.getCurrentNetworkType()
+      this.$plus.geolocation.getCurrentPosition().then(success => {
         this.addresses = success.addresses
+        this.city = success.address.city
       }).catch(err => {
+        console.log(err)
+      })
+      window.plus.accelerometer.watchAcceleration(success => {
+        this.accelera = success
+      }, function (err) {
         console.log(err)
       })
     },

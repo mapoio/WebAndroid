@@ -7,29 +7,31 @@ import YDUI from 'vue-ydui'
 import VueResource from 'vue-resource'
 import 'vue-ydui/dist/ydui.rem.css'
 import store from './store'
+import VueH5Plus from './h5plus'
 
 Vue.config.productionTip = false
 
 Vue.use(YDUI)
 Vue.use(VueResource)
+Vue.use(VueH5Plus)
 /* eslint-disable no-new */
 
 // 每次请求都将检查登录状态
-router.beforeEach(({meta, path}, from, next) => {
-  var { auth = true } = meta
-  if (path === '/register') {
-    return next()
-  }
-  // var isLogin = Boolean(store.state.user.expires_in) // true用户已登录， false用户未登录
-  let timeleft = Date.now() - store.state.user.exp
-  var isLogin = Boolean(timeleft < 0)
-  if (auth && !isLogin && path !== '/login') {
-    // console.info('before')
-    return next({ path: '/login' })
-  }
-  // console.info(next({ path: '/login' }))
-  next()
-})
+// router.beforeEach(({meta, path}, from, next) => {
+//   var { auth = true } = meta
+//   if (path === '/register') {
+//     return next()
+//   }
+//   // var isLogin = Boolean(store.state.user.expires_in) // true用户已登录， false用户未登录
+//   let timeleft = Date.now() - store.state.user.exp
+//   var isLogin = Boolean(timeleft < 0)
+//   if (auth && !isLogin && path !== '/login') {
+//     // console.info('before')
+//     return next({ path: '/login' })
+//   }
+//   // console.info(next({ path: '/login' }))
+//   next()
+// })
 
 Vue.http.headers.common['Authorization'] = store.state.user.token_type + ' ' + store.state.user.access_token
 Vue.http.headers.common['Accept'] = 'application/json'
