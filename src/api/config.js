@@ -84,14 +84,19 @@ class ApiDataWithAuth extends ApiData {
       [TIME_STAMP]: now.toString(),
       [NONCE]: Math.floor(Math.random() * MAX) + MIN,
       [STAFFID]: this.getStaffId(),
-      [SIGNATURE]: this.toMd5(this[TIME_STAMP] + this[NONCE] + this[STAFFID] + this.getToken() + this.dataToStr())
+      [SIGNATURE]: ''
     }
+    headers[SIGNATURE] = this.toMd5(`${headers[TIME_STAMP]}${headers[NONCE]}${headers[STAFFID]}${this.getToken()}${this.dataToStr()}` + '')
     console.log(`${headers[TIME_STAMP]}${headers[NONCE]}${headers[STAFFID]}${this.getToken()}${this.dataToStr()}`)
+    console.log(this.toMd5(`${headers[TIME_STAMP]}${headers[NONCE]}${headers[STAFFID]}${this.getToken()}${this.dataToStr()}` + ''))
     return headers
   }
   send (options) {
     if (typeof options !== 'object') {
       options = {}
+    }
+    if (this.api.request.method === 'GET') {
+      this.api.request.params = options.params || {}
     }
     options = options || {}
     this.headers = this.getAuthHeaders()

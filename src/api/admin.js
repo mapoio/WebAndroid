@@ -17,3 +17,18 @@ export const CreateRace = new ApiDataWithAuth({
     }
   }
 })
+
+export const GetUsers = new ApiDataWithAuth({
+  description: '获取所有用户信息',
+  version: '1.0',
+  request: {
+    url: Host + '/api/admin/GetAllStudentImformation',
+    method: 'GET',
+    data: {
+      Name: '测试',
+      Count: 200,
+      Money: 200,
+      time: 0
+    }
+  }
+})
