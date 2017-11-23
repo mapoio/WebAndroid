@@ -4,6 +4,7 @@ import nativeUI from './vhp/nativeUI'
 import accelerometer from './vhp/accelerometer'
 import geolocation from './vhp/geolocation'
 import networkinfo from './vhp/networkinfo'
+import camera from './vhp/camera'
 import toPromise from './vhp/toPromise'
 import _ from './utils'
 
@@ -13,6 +14,7 @@ let h5plus = {
   accelerometer: accelerometer,
   geolocation: geolocation,
   nativeUI: nativeUI,
+  camera: camera,
   networkinfo: networkinfo,
   toPromise: toPromise
 }
@@ -58,6 +60,8 @@ function install (Vue) {
   Vue.prototype.plusReady = evt.plusReady
   Vue.prototype.os = os
   Vue.prototype.$plus = h5plus
+  Vue.prototype.plus = window.plus
+  Vue.prototype.toPromise = h5plus.toPromise
 }
 
 VueH5Plus.install = install

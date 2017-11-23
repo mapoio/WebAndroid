@@ -33,14 +33,28 @@
         <yd-button size="large" type="danger">注销</yd-button>
       </router-link>
     </div>
+    <yd-button size="large" type="primary" @click.native="createRace">接口测试</yd-button>
   </div>
 </template>
 <script>
 import { mapState } from 'vuex'
+import { CreateRace } from '../api/admin'
 
 export default {
   data () {
     return {
+    }
+  },
+  methods: {
+    createRace () {
+      CreateRace.data.time = Date.parse(new Date()) / 1000
+      console.log(CreateRace)
+      CreateRace.send().then((success) => {
+        console.log(success)
+      }).catch((reject) => {
+        console.log(reject)
+      })
+      console.log('123')
     }
   },
   computed: mapState({

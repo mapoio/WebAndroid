@@ -57,17 +57,27 @@ export default {
     },
     getImage () {
       console.log('开始拍照：')
-      var cmr = window.plus.camera.getCamera()
-      cmr.captureImage(function (p) {
-        console.log('成功：' + p)
-        window.plus.io.resolveLocalFileSystemURL(p, function (entry) {
+      let cmr = this.plus.getCamera()
+      this.toPromise(cmr.captureImage, { filename: '_doc/camera/', index: 1 }).then(success => {
+        console.log('成功：' + success)
+        window.plus.io.resolveLocalFileSystemURL(success, function (entry) {
           console.log('success cam')
         }, function (e) {
           console.log('读取拍照文件错误：' + e.message)
         })
-      }, function (e) {
-        console.log('失败：' + e.message)
-      }, { filename: '_doc/camera/', index: 1 })
+      }).catch(err => {
+        console.log('失败：' + err.message)
+      })
+      // (function (p) {
+      //   console.log('成功：' + p)
+      //   window.plus.io.resolveLocalFileSystemURL(p, function (entry) {
+      //     console.log('success cam')
+      //   }, function (e) {
+      //     console.log('读取拍照文件错误：' + e.message)
+      //   })
+      // }, function (e) {
+      //   console.log('失败：' + e.message)
+      // }, { filename: '_doc/camera/', index: 1 })
     }
   }
 }

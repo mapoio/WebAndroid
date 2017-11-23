@@ -1,42 +1,29 @@
-import Vue from 'vue'
-import Api from '../utils/api'
-import { log } from '../utils/shortcuts'
+// import Vue from 'vue'
+// // import Api from '../utils/api'
+import Api from '../api'
+// import { log } from '../utils/shortcuts'
+import { Base64 } from 'js-base64'
 
 export const USER_REGISTER = 'USER_REGISTER' // 注册成功
 export const USER_SIGNIN = 'USER_SIGNIN' // 登录成功
 export const USER_SIGNOUT = 'USER_SIGNOUT' // 退出登录
-let loginApi = Api.login
-let registerApi = Api.register
 
-let accesslocalStorage = items => {
-  let states = {}
-  items.forEach(item => {
-    states[item] = JSON.parse(localStorage.getItem(item)) || {}
-  })
-  return states
-}
+let Register = Api.user.Register
+let Login = Api.user.Login
 
-let setlocalStorage = items => {
-  for (let item in items) {
-    localStorage.setItem(item, JSON.stringify(items[item]))
-  }
-}
-
-let deelExpTime = exp => {
-  exp = Date.now() + 3600 * 1000
-  return exp
+let base2obj = base => {
+  return JSON.parse(Base64.decode(base))
 }
 
 export default {
-
-  state: accesslocalStorage(Object.keys(loginApi.response.data)),
+  state: Login.storage,
   mutations: {
     [USER_SIGNIN] (state, user) {
       Object.assign(state, user)
+      Login.commonHeaders = {key: 'Staffid', value: user.username}
+      console.log(Login.commonHeaders)
     },
     [USER_SIGNOUT] (state, user) {
-      // localStorage.removeItem('user')
-      // Object.keys(state).forEach(k => Vue.delete(state, k))
       Object.assign(state, user)
     }
   },
@@ -44,16 +31,24 @@ export default {
     [USER_SIGNIN] ({
       commit
     }, user) {
-      let post = Vue.http.post(loginApi.url, user).then(success => {
-        let data = success.data.data
-        data.exp = deelExpTime(data.exp)
-        setlocalStorage(data)
-        commit(USER_SIGNIN, data)
+      Login.data = user
+      console.log(Login)
+      let post = Login.send().then(success => {
+        if (success.data.success === false) {
+          throw new Error(success.data.message)
+        }
+        let data1 = base2obj(success.data.data.access_token.split('.')[1])
+        data1.token_type = base2obj(success.data.data.access_token.split('.')[0]).typ
+        data1.access_token = success.data.data.access_token
+        console.log(Login)
+        Login.storage = data1
+        commit(USER_SIGNIN, data1)
       }, failed => {
-        commit(USER_SIGNIN, loginApi.response.data)
+        Login.removeStorage()
         if (failed.status === 404) {
           throw new Error('登录接口错误或者网络连接不正确')
         }
+        console.log(failed)
         throw new Error('未知错误')
       })
       return post
@@ -62,18 +57,35 @@ export default {
     [USER_SIGNOUT] ({
       commit
     }) {
-      let data = loginApi.response.data
-      setlocalStorage(data)
+      let data = {}
+      Login.removeStorage()
       commit(USER_SIGNOUT, data)
       return Promise.resolve()
     },
     [USER_REGISTER] ({
       commit
     }, user) {
-      Vue.http.post(registerApi.url, registerApi.request).then(success => {
-        log.log('ty') // TODO: 用promise返回状态
-        // alert('注册成功！')
+      Register.data = user
+      let post = Register.send().then(success => {
+        if (success.data.success === false) {
+          throw new Error(success.data.message)
+        }
+        let data1 = base2obj(success.data.data.access_token.split('.')[1])
+        data1.token_type = base2obj(success.data.data.access_token.split('.')[0]).typ
+        data1.access_token = success.data.data.access_token
+        console.log(data1)
+        Register.storage = data1
+        console.log(Register)
+        commit(USER_SIGNIN, data1)
+      }, failed => {
+        Register.removeStorage()
+        if (failed.status === 404) {
+          throw new Error('注册接口错误或者网络连接不正确')
+        }
+        console.log(failed)
+        throw new Error('未知错误')
       })
+      return post
     }
   }
 }

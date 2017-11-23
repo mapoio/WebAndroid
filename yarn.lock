@@ -6094,10 +6094,6 @@ vue-hot-reload-api@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.1.0.tgz#9ca58a6e0df9078554ce1708688b6578754d86de"
 
-vue-html5plus@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/vue-html5plus/-/vue-html5plus-1.0.0.tgz#ccb0dffd8be1f123943bb56a80a52573e4ff0e52"
-
 vue-loader@^13.0.4:
   version "13.0.4"
   resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-13.0.4.tgz#0a6d893698735fcf7037b20a23d724cb39eee7d4"

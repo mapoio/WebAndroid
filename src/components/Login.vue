@@ -23,13 +23,13 @@
 <script>
 import { mapActions } from 'vuex'
 import { USER_SIGNIN } from '../store/user'
-import Api from '../utils/api'
+import Api from '../api'
 
 export default {
   data () {
     return {
       btn: true, // true 已经提交过， false没有提交过
-      user: Api.login.request
+      user: Api.user.Login.request.data
     }
   },
   methods: {
@@ -37,11 +37,8 @@ export default {
     submit () {
       this.btn = false
       if (Boolean(!this.user.username) || Boolean(!this.user.password)) return
-      let post = new Promise((resolve, reject) => {
-        this.$dialog.loading.open('正在登陆')
-        resolve(this.USER_SIGNIN(this.user))
-      })
-      post.then(data => {
+      this.$dialog.loading.open('正在登陆')
+      this.USER_SIGNIN(this.user).then(data => {
         this.$dialog.loading.open('登陆成功，正在跳转')
         setTimeout(() => {
           this.$dialog.loading.close()
